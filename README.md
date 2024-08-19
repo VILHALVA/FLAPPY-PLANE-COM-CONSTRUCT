@@ -15,7 +15,7 @@
 
 ## EXECUTANDO O PROJETO:
 **Executando o Jogo:**
-   - Para subir o servidor, digite o seguinte comando no Terminal/CMD:
+   - Para subir o servidor, navegue até o diretório `./CODIGO`, e digite o seguinte comando no Terminal/CMD:
    ```bash
    node APP.js
    ```

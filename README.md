@@ -14,7 +14,6 @@
 * **Tela de Game Over:** O jogo termina quando o avião colide com um obstáculo.
 
 ## EXECUTANDO O PROJETO:
-**Executando o Jogo:**
    - Para subir o servidor, navegue até o diretório `./CODIGO`, e digite o seguinte comando no Terminal/CMD:
    ```bash
    node APP.js

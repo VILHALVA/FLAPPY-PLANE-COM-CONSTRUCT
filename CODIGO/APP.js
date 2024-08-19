@@ -2,27 +2,46 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const port = 3000;
+const server = http.createServer((req, res) => {
+    let filePath = '.' + req.url;
 
-const serveStaticFile = (filePath, response) => {
+    if (filePath === './') {
+        filePath = './index.html'; 
+    }
+
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.gif': 'image/gif',
+        '.wav': 'audio/wav',
+        '.mp4': 'video/mp4',
+        '.woff': 'application/font-woff',
+        '.ttf': 'application/font-ttf',
+        '.eot': 'application/vnd.ms-fontobject',
+        '.otf': 'application/font-otf',
+        '.svg': 'application/image/svg+xml',
+    };
+
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+
     fs.readFile(filePath, (err, data) => {
         if (err) {
-            response.writeHead(404);
-            response.end('ERRO 404: O ARQUIVO index.html NÃO FOI ENCONTRADO!');
-        } 
-        else {
-            response.writeHead(200);
-            response.end(data);
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end("Arquivo não encontrado.");
+            return;
         }
+
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(data, 'utf-8');
     });
-};
-
-const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
-
-    serveStaticFile(filePath, res);
 });
 
-server.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+const PORT = process.env.PORT || 8000; 
+server.listen(PORT, () => {
+    console.log(`SERVIDOR RODANDO EM http://localhost:${PORT}/`);
 });
